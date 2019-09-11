@@ -1,0 +1,15 @@
+s 'a' 'b' 'c' 
+s 'a' 'b' 'c' 
+sub-args 'a' 'b' 'c' 
+sub-args 'a' 'b' 'c' 
+sub-args 'a' 'b' 'c' 
+sub-args 'a' 'b' 'c' 
+s 'a' 
+sub-args 'a' 
+sub-args 'a' 
+sub-args 'a' 'b' 'c' 
+sub-args 'a' 'b' 'c' 
+a a,b,c
+a-option a,b,c
+a-option a,b,c
+a-option a,b,c

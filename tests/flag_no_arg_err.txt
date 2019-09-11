@@ -1,0 +1,10 @@
+i
+unknown option: 'b'
+unknown option: 'c'
+unknown option: 'd'
+i
+arg without option: bcd
+i-flag
+arg without option: bcd
+error: option 'i-flag' does not take an argument
+error: option 'i-flag' does not take an argument

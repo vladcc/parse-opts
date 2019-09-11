@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1568235482 source:/home/vld/Projects/parse-opts/parse_opts.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<stdbool.h>
+	"parse_opts.h"
+
+1568238017 /home/vld/Projects/parse-opts/parse_opts.h
+	<stdbool.h>
+
+1568235559 source:/home/vld/Projects/parse-opts/main.c
+	<stdio.h>
+	"parse_opts.h"
+

@@ -1,0 +1,17 @@
+i
+j
+k
+k
+j
+i
+j
+k
+i
+a 123
+j
+k
+i
+a 123
+a kji
+k
+s '1' '2' '3' 

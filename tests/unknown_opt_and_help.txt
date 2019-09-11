@@ -1,0 +1,20 @@
+i
+j
+unknown option: 'z'
+unknown option: 'm'
+k
+a-option 123
+unknown option: 'random'
+help for flag -i, --i-flag
+help for flag -j, --j-flag
+help for flag -k, --k-flag
+help for option -a, --a-option
+help for option -h, --help
+help for option -s, --sub-args
+unknown option: 'z'
+help for flag -i, --i-flag
+help for flag -j, --j-flag
+help for flag -k, --k-flag
+help for option -a, --a-option
+help for option -h, --help
+help for option -s, --sub-args
