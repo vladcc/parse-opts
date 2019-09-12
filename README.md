@@ -1,5 +1,5 @@
 # parse-opts
-command line options parsing
+Command line options parsing
 
 Command line option parsing for the classic syntax you'd find on *nix
 systems, implemented with callbacks.
