@@ -1,7 +1,8 @@
 /*  parse_opts.h -- command line options parsing
     v1.0
 
-    Callback command line option parsing for the classic syntax.
+    Command line option parsing for the classic syntax you'd find on *nix
+    systems, implemented with callbacks.
 
     Options can have a single character short name beginning with a dash and
     a long name beginning with a double dash. Short names of options that do
@@ -16,7 +17,7 @@
     options without arguments, given the option with the argument is last
     (e.g. -xyzaArg-To-a or -xyza Arg-To-a). Sub-arguments are also supported
     as a delimited list by the opts_get_sub_arg() function (see main.c for an
-    example). A single dash seen by the user as an argument to the program
+    example). A single dash is seen by the user as an argument to the program
     (not belonging to any option). Everything after only a double dash is
     also seen as arguments to the program, even option names. This library
     does not copy argv, but does change the strings. If a long option name
@@ -25,7 +26,7 @@
 
     Author: Vladimir Dinev
     vld.dinev@gmail.com
-    2019-09-11
+    2019-09-12
 */
 
 #ifndef PARSE_OPTS_H
@@ -73,9 +74,10 @@ Returns: Nothing.
 Description: Parses the strings in argv, calling a handler when an option
 from the_tbl is encountered, wild_arg when an argument not belonging to any
 option is met, and unknown_opt when an unknown option is seen. wild_arg_arg is
-passed to wild_arg when wild_arg is called and can be NULL if not used. When
-unknown_opt is called, both opt_arg and callback_arg are NULL. To skip the
-program name call with opts_parse(argc-1, argv+1...
+passed to wild_arg when wild_arg is called and can be NULL if not used. Inside
+wild_arg, opt is also NULL. When unknown_opt is called, both opt_arg and
+callback_arg are NULL. To skip the program name call with opts_parse(argc-1,
+argv+1...
 
 Note: Prints an error message to stderr and calls exit(EXIT_FAILURE) when
 an option that requires an argument does not have one, or when assignment
