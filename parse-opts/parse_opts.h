@@ -1,5 +1,5 @@
 /*  parse_opts.h -- command line options parsing
-    v1.0
+    v1.01
 
     Command line option parsing for the classic syntax you'd find on *nix
     systems, implemented with callbacks.
@@ -52,7 +52,7 @@ typedef struct opts_entry {
     opts_handler callback;
     void * callback_arg;
     opts_help_printer print_help;
-    char * long_name;
+    const char * long_name;
     char short_name;
     bool takes_arg;
 } opts_entry;
