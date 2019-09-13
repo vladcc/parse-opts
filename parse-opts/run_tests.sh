@@ -1,3 +1,5 @@
+#!/bin/bash
+
 G_TMP_FILE="tmp_result.txt"
 G_BINARY=""
 
