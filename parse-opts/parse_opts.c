@@ -5,7 +5,10 @@
 #include <stdbool.h>
 #include "parse_opts.h"
 
+#define OPTS_START          '-'
+#define OPTS_LONG_ASSING    '='
 #define SHORT_NAME_BUFF_LEN 3
+#define LONG_NAME_BUFF_LEN  128
 
 enum {SHORT, LONG, ARG, DOUBLE_DASH};
 //------------------------------------------------------------------------------
@@ -224,7 +227,6 @@ char * opts_get_sub_arg(char ** parg, int delimiter)
 }
 //------------------------------------------------------------------------------
 
-#define LONG_NAME_BUFF_LEN 128
 void opts_print_help(opts_table * the_tbl)
 {
     opts_entry * this_opt;

@@ -1,5 +1,5 @@
 /*  parse_opts.h -- command line options parsing
-    v1.01
+    v1.011
 
     Command line option parsing for the classic syntax you'd find on *nix
     systems, implemented with callbacks.
@@ -26,7 +26,7 @@
 
     Author: Vladimir Dinev
     vld.dinev@gmail.com
-    2019-09-12
+    2019-09-14
 */
 
 #ifndef PARSE_OPTS_H
@@ -34,8 +34,6 @@
 
 #include <stdbool.h>
 
-#define OPTS_START         '-'
-#define OPTS_LONG_ASSING   '='
 // opt_arg is NULL for options that do not take arguments
 // callback_arg is the callback_arg from the opts_entry
 // and it's supposed to point to a user defined structure
