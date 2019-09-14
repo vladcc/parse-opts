@@ -36,14 +36,8 @@ function test_run_compare
     file_compare "$LOC_TFILE" "$LOC_TCASE"
 }
 
-function main
+function run_tests
 {
-    if [ "$#" -ne 1 ]; then
-        echo "Use: $0 <path-to-opts-test-binary>"
-        exit 1
-    fi
-
-    G_BINARY="$1"
     TEST_DIR="./tests"
 
     TEST_FILE="$TEST_DIR/short_names.txt"
@@ -81,8 +75,23 @@ function main
     TEST_FILE="$TEST_DIR/unknown_opt_and_help.txt"
     TEST_CASE="-ijzmk --a-option 123 --random --help -z -h"
     test_run_compare "$TEST_CASE" "$TEST_FILE"
+}
 
+function clean_up
+{
     rm $G_TMP_FILE
+}
+
+function main
+{
+    if [ "$#" -ne 1 ]; then
+        echo "Use: $0 <path-to-opts-test-binary>"
+        exit 1
+    fi
+
+    G_BINARY="$1"
+    run_tests
+    clean_up
 }
 
 main $@
