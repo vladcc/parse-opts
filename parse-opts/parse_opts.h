@@ -1,5 +1,5 @@
 /*  parse_opts.h -- command line options parsing
-    v1.011
+    v1.0111
 
     Command line option parsing for the classic syntax you'd find on *nix
     systems, implemented with callbacks.

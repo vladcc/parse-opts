@@ -119,7 +119,7 @@ void opts_parse(int argc, char * argv[],
                         }
                     }
                     else
-                        goto call_of_the_wild;
+                        goto no_opt_arg;
                 } break;
 
                 case LONG:
@@ -169,7 +169,7 @@ void opts_parse(int argc, char * argv[],
                 } break;
 
                 case ARG:
-                    goto call_of_the_wild;
+                    goto no_opt_arg;
                     break;
 
                 case DOUBLE_DASH:
@@ -182,7 +182,7 @@ void opts_parse(int argc, char * argv[],
         }
         else
         {
-call_of_the_wild:
+no_opt_arg:
             wild_arg(NULL, str, wild_arg_arg);
         }
 

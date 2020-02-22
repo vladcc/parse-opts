@@ -14,3 +14,18 @@
 	<stdio.h>
 	"parse_opts.h"
 
+1568457295 source:/home/vld/Projects/parse-opts/parse-opts/parse_opts.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<stdbool.h>
+	"parse_opts.h"
+
+1575762046 /home/vld/Projects/parse-opts/parse-opts/parse_opts.h
+	<stdbool.h>
+
+1568235559 source:/home/vld/Projects/parse-opts/parse-opts/main.c
+	<stdio.h>
+	"parse_opts.h"
+
