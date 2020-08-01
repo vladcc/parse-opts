@@ -90,8 +90,14 @@ function main
     fi
 
     G_BINARY="$1"
+    
+    if [ ! -f "$G_BINARY" ]; then
+		echo "error: $G_BINARY is not a file"
+		exit 1
+    fi
+    
     run_tests
     clean_up
 }
 
-main $@
+main "$@"

@@ -71,7 +71,7 @@ static void unknown(char * opt, char * arg, void * p)
     printf("unknown option: '%s'\n", opt);
 }
 
-static void wild_arg(char * opt, char * arg, void * p)
+static void unbound_arg(char * opt, char * arg, void * p)
 {
     printf("arg without option: %s\n", arg);
 }
@@ -109,6 +109,6 @@ int main(int argc, char * argv[])
     the_tbl.tbl = all_entries;
     the_tbl.length = sizeof(all_entries)/sizeof(*all_entries);
 
-    opts_parse(argc-1, argv+1, &the_tbl, wild_arg, NULL, unknown);
+    opts_parse(argc-1, argv+1, &the_tbl, unbound_arg, NULL, unknown);
     return 0;
 }

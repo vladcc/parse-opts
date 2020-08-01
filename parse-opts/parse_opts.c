@@ -51,7 +51,7 @@ equit("option '%s' does not take an argument", (popt))
 
 void opts_parse(int argc, char * argv[],
     opts_table * the_tbl,
-    opts_handler wild_arg, void * wild_arg_arg,
+    opts_handler unbound_arg, void * unbound_arg_arg,
     opts_handler unknown_opt
     )
 {
@@ -183,7 +183,7 @@ void opts_parse(int argc, char * argv[],
         else
         {
 no_opt_arg:
-            wild_arg(NULL, str, wild_arg_arg);
+            unbound_arg(NULL, str, unbound_arg_arg);
         }
 
 next_argv:

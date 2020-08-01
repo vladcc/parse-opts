@@ -23,3 +23,6 @@ also seen as arguments to the program, even option names. This library
 does not copy argv, but does change the strings. If a long option name
 ends in with a '=', the '=' is replaced with '\0', as is the first
 delimiter after a sub-argument, if opts_get_sub_arg() is used.
+
+There's a code generator in parse-opts/parse-opts-code-generator, so you don't
+have to write all minutiae by hand.
