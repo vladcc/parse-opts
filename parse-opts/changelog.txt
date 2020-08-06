@@ -1,0 +1,6 @@
+2020-08-06
+v1.0112 -> v1.1
+opts_parse_data introduced.
+Print program name before 'error:' implemented.
+c::b proj folder removed.
+Added changelog.txt and compile.txt.

@@ -6,5 +6,5 @@ i
 arg without option: bcd
 i-flag
 arg without option: bcd
-error: option 'i-flag' does not take an argument
-error: option 'i-flag' does not take an argument
+my-program: error: option 'i-flag' does not take an argument
+my-program: error: option 'i-flag' does not take an argument

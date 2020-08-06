@@ -86,29 +86,67 @@ int main(int argc, char * argv[])
 
     opts_table the_tbl;
     opts_entry all_entries[] = {
-        {.short_name = 'i', .long_name = "i-flag", .takes_arg = false,
-         .callback = hnd_flag_i, .callback_arg = NULL,
-         .print_help = hlp_flag_i},
-        {.short_name = 'j', .long_name = "j-flag", .takes_arg = false,
-         .callback = hnd_flag_j, .callback_arg = NULL,
-         .print_help = hlp_flag_j},
-        {.short_name = 'k', .long_name = "k-flag", .takes_arg = false,
-         .callback = hnd_flag_k, .callback_arg = NULL,
-         .print_help = hlp_flag_k},
-        {.short_name = 'a', .long_name = "a-option", .takes_arg = true,
-         .callback = hnd_a, .callback_arg = NULL,
-         .print_help = hlp_a},
-        {.short_name = 'h', .long_name = "help", .takes_arg = false,
-         .callback = hnd_help, .callback_arg = &the_tbl,
-         .print_help = hlp_help},
-        {.short_name = 's', .long_name = "sub-args", .takes_arg = true,
-         .callback = hnd_s_args, .callback_arg = NULL,
-         .print_help = hlp_s_args},
+		{
+			.short_name = 'i',
+			.long_name = "i-flag",
+			.takes_arg = false,
+			.callback = hnd_flag_i,
+			.callback_arg = NULL,
+			.print_help = hlp_flag_i
+		},
+		{
+			.short_name = 'j', 
+			.long_name = "j-flag", 
+			.takes_arg = false,
+			.callback = hnd_flag_j, 
+			.callback_arg = NULL,
+			.print_help = hlp_flag_j
+		},
+		{
+			.short_name = 'k', 
+			.long_name = "k-flag", 
+			.takes_arg = false,
+			.callback = hnd_flag_k, 
+			.callback_arg = NULL,
+			.print_help = hlp_flag_k
+		},
+		{
+			.short_name = 'a', 
+			.long_name = "a-option", 
+			.takes_arg = true,
+			.callback = hnd_a, 
+			.callback_arg = NULL,
+			.print_help = hlp_a
+		},
+		{
+			.short_name = 'h', 
+			.long_name = "help", 
+			.takes_arg = false,
+			.callback = hnd_help,
+			.callback_arg = &the_tbl,
+			.print_help = hlp_help
+		},
+		{
+			.short_name = 's', 
+			.long_name = "sub-args", 
+			.takes_arg = true,
+			.callback = hnd_s_args, 
+			.callback_arg = NULL,
+			.print_help = hlp_s_args
+		},
     };
 
     the_tbl.tbl = all_entries;
     the_tbl.length = sizeof(all_entries)/sizeof(*all_entries);
 
-    opts_parse(argc-1, argv+1, &the_tbl, unbound_arg, NULL, unknown);
+	opts_parse_data parse_data = {
+		.program_name = "my-program",
+		.the_tbl = &the_tbl,
+		.handle_unbound_arg = unbound_arg,
+		.unbound_arg_arg = NULL,
+		.handle_unknown_opt = unknown
+	};
+
+    opts_parse(argc-1, argv+1, &parse_data);
     return 0;
 }
