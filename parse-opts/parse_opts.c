@@ -10,6 +10,7 @@
 enum {SHORT, LONG, ARG, DOUBLE_DASH};
 
 //-----------------------------------------------------------------------------
+
 static int what(char * str)
 {
     int ret = ARG;
