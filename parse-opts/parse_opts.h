@@ -33,23 +33,59 @@
 #include <stdbool.h>
 
 // opt_arg is NULL for options that do not take arguments
-// callback_arg is the callback_arg from the opts_entry
-// and it's supposed to point to a user defined structure
-typedef void (*opts_handler)(char * opt, char * opt_arg, void * callback_arg);
+// context is a pointer to something user defined
+typedef void (*opts_handler)(
+	const char * opt,
+	char * opt_arg,
+	void * context
+);
+typedef struct opts_handler_pair {
+	opts_handler handler;
+	void * context;
+} opts_handler_pair;
 
 // short_name and long_name are passed beginning with '-' and "--" respectively
-typedef void (*opts_help_printer)(char * short_name, char * long_name);
+typedef void (*opts_help_printer)(
+	const char * short_name,
+	const char * long_name
+);
+
+// called when an argument unbound to an option is seen
+typedef void (*opts_on_unbound_arg)(const char * arg, void * context);
+typedef struct opts_on_unbound_arg_pair {
+	opts_on_unbound_arg handler;
+	void * context;
+} opts_on_unbound_arg_pair;
+
+// err conditions
+typedef enum opts_err_code {
+	OPTS_UNKOWN_OPT_ERR = 1,
+	OPTS_ARG_REQ_ERR,
+	OPTS_NO_ARG_REQ_ERR
+} opts_err_code;
+typedef void (*opts_on_error)(
+	opts_err_code err_code,
+	const char * err_opt,
+	void * context
+);
+typedef struct opts_on_error_pair {
+	opts_on_error handler;
+	void * context;
+} opts_on_error_pair;
+
+typedef struct opts_name_pair {
+	const char * long_name;
+	char short_name;
+} opts_name_pair;
 
 // Make an array of this and populate it
 // callback_arg can be NULL if not used
 // short_name can be '\0' if not used
 // long_name can be NULL if not used
 typedef struct opts_entry {
-    opts_handler callback;
-    void * callback_arg;
+    opts_name_pair names;
+    opts_handler_pair handler;
     opts_help_printer print_help;
-    const char * long_name;
-    char short_name;
     bool takes_arg;
 } opts_entry;
 
@@ -60,11 +96,9 @@ typedef struct opts_table {
 } opts_table;
 
 typedef struct opts_parse_data {
-	const char * program_name;
 	opts_table * the_tbl;
-	opts_handler handle_unbound_arg;
-	void * unbound_arg_arg;
-	opts_handler handle_unknown_opt;
+	opts_on_unbound_arg_pair on_unbound;
+	opts_on_error_pair on_error;
 } opts_parse_data;
 
 void opts_parse(int argc, char * argv[], opts_parse_data * parse_data);
@@ -92,7 +126,7 @@ Note: For easy use, set the_tbl as the callback_arg for the help option and
 call this function from the help option handler.
 */
 
-char * opts_get_sub_arg(char ** parg, int delimiter);
+char * opts_get_sub_arg(char ** parg, char delimiter);
 /*
 Returns: A pointer to the next sub-argument, NULL when no more sub-arguments.
 Description: Splits the string pointed to by *parg into tokens separated by

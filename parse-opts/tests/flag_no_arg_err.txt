@@ -1,10 +1,10 @@
 i
-unknown option: 'b'
-unknown option: 'c'
-unknown option: 'd'
+my-program: error: option 'b' unknown
+my-program: error: option 'c' unknown
+my-program: error: option 'd' unknown
 i
 arg without option: bcd
 i-flag
 arg without option: bcd
-my-program: error: option 'i-flag' does not take an argument
-my-program: error: option 'i-flag' does not take an argument
+my-program: error: option 'i-flag' does not take arguments
+my-program: error: option 'i-flag' does not take arguments

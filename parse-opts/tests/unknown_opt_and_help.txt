@@ -1,17 +1,17 @@
 i
 j
-unknown option: 'z'
-unknown option: 'm'
+my-program: error: option 'z' unknown
+my-program: error: option 'm' unknown
 k
 a-option 123
-unknown option: 'random'
+my-program: error: option 'random' unknown
 help for flag -i, --i-flag
 help for flag -j, --j-flag
 help for flag -k, --k-flag
 help for option -a, --a-option
 help for option -h, --help
 help for option -s, --sub-args
-unknown option: 'z'
+my-program: error: option 'z' unknown
 help for flag -i, --i-flag
 help for flag -j, --j-flag
 help for flag -k, --k-flag

@@ -1,1 +1,1 @@
-gcc main.c parse_opts.c -o test.bin -Wall
+gcc main.c parse_opts.c -o test.bin -Wall -Wfatal-errors
