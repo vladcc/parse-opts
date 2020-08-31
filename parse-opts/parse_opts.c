@@ -8,7 +8,6 @@
 #define LONG_NAME_BUFF_LEN  128
 
 enum {SHORT, LONG, ARG, DOUBLE_DASH};
-
 //-----------------------------------------------------------------------------
 
 static int what(char * str)

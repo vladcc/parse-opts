@@ -14,3 +14,7 @@ introduced.
 The library no longer calls exit().
 parse-opts-gen.awk now generates the options in main.c and supports source code
 as data for handlers.
+
+2020-08-31
+parse-opts-code-generator/user_code.awk v1.1
+Code generator user_code.awk cleaned up and versioned.
