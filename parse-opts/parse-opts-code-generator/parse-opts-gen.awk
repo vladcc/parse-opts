@@ -1,105 +1,53 @@
 #!/usr/bin/awk -f
 
-@include "user_code.awk"
+function SCRIPT_NAME() {return "parse-opts-gen.awk"}
+function SCRIPT_VERSION() {return "1.0"}
 
-# <user_events>
-function handle_context_arg_type() {
-	data_or_err()
-	save_context_arg_type($2)
+# <user_api>
 
-}
+@include "inc_user_events.awk"
 
-function handle_context_var_name() {
-	data_or_err()
-	save_context_var_name($2)
-
-}
-
-function handle_unbound_arg_code() {
-	#data_or_err()
-	save_unbound_arg_code(get_code())
-
-}
-
-function handle_on_error_code() {
-	#data_or_err()
-	save_on_error_code(get_code())
-
-}
-
-function handle_long_name() {
-	data_or_err()
-	save_long_name($2)
-
-}
-
-function handle_short_name() {
-	data_or_err()
-	save_short_name($2)
-
-}
-
-function handle_takes_args() {
-	data_or_err()
-	save_takes_args($2)
-
-}
-
-function handle_handler_code() {
-	#data_or_err()
-	save_handler_code(get_code())
-
-}
-
-function handle_help_code() {
-	#data_or_err()
-	save_help_code(get_code())
-
-}
-
-function handle_end() {
-	#data_or_err()
-	#save_end($2)
-}
-
-function awk_BEGIN() {
-
-}
-
-function awk_END() {
-	if (get_last_rule() != __R_END)
-		in_error("last read rule not last declared")
-
-	main()
-}
-
-function in_error(error_msg) {
-	__error_raise(error_msg)
-}
-# </user_events>
-
-# <print_lib>
-function print_set_indent(tabs) {__base_indent__ = tabs}
-function print_get_indent() {return __base_indent__}
+# <user_print>
+function print_ind_line(str, tabs) {print_tabs(tabs); print_puts(str)}
+function print_ind_str(str, tabs) {print_tabs(tabs); print_stdout(str)}
 function print_inc_indent() {print_set_indent(print_get_indent()+1)}
 function print_dec_indent() {print_set_indent(print_get_indent()-1)}
-function print_string(str, tabs) {print_tabs(tabs); printf("%s", str)}
-function print_line(str, tabs) {print_string(str, tabs); print_new_lines(1)}
-function print_tabs(tabs,    i, end) {
+function print_tabs(tabs,	 i, end) {
 	end = tabs + print_get_indent()
 	for (i = 1; i <= end; ++i)
-		printf("\t")
+		print_stdout("\t")
 }
-function print_new_lines(new_lines,    i) {
-	for (i = 1; i <= new_lines; ++i)
-		printf("\n")
+function print_new_lines(num,    i) {
+	for (i = 1; i <= num; ++i)
+		print_stdout("\n")
 }
-# </print_lib>
 
-# <utils>
+function print_set_indent(tabs) {__indent_count__ = tabs}
+function print_get_indent(tabs) {return __indent_count__}
+function print_puts(str) {__print_puts(str)}
+function print_puts_err(str) {__print_puts_err(str)}
+function print_stdout(str) {__print_stdout(str)}
+function print_stderr(str) {__print_stderr(str)}
+function print_set_stdout(str) {__print_set_stdout(str)}
+function print_set_stderr(str) {__print_set_stderr(str)}
+function print_get_stdout() {return __print_get_stdout()}
+function print_get_stderr() {return __print_get_stderr()}
+# </user_print>
+
+# <user_error>
+function error(msg) {__error(msg)}
+function error_input(msg) {__error_input(msg)}
+# </user_error>
+
+# <user_exit>
+function exit_success() {__exit_success()}
+function exit_failure() {__exit_failure()}
+# </user_exit>
+
+# <user_utils>
 function data_or_err() {
 	if (NF < 2)
-		__error_raise(sprintf("no data after '%s'", $1))
+		error_input(sprintf("no data after '%s'", $1))
 }
 
 function reset_all() {
@@ -115,7 +63,7 @@ function reset_all() {
 	reset_end()
 }
 
-function get_last_rule() {return __state}
+function get_last_rule() {return __state_get()}
 
 function save_context_arg_type(context_arg_type) {__context_arg_type_arr__[++__context_arg_type_num__] = context_arg_type}
 function get_context_arg_type_count() {return __context_arg_type_num__}
@@ -166,110 +114,146 @@ function save_end(end) {__end_arr__[++__end_num__] = end}
 function get_end_count() {return __end_num__}
 function get_end(num) {return __end_arr__[num]}
 function reset_end() {delete __end_arr__; __end_num__ = 0}
-# </utils>
-
+# </user_utils>
+# </user_api>
 #==============================================================================#
 #                        machine generated parser below                        #
 #==============================================================================#
+# <gen_parser>
+# <gp_print>
+function __print_set_stdout(f) {__gp_fout__ = ((f) ? f : "/dev/stdout")}
+function __print_get_stdout() {return __gp_fout__}
+function __print_stdout(str) {__print(str, __print_get_stdout())}
+function __print_puts(str) {__print_stdout(sprintf("%s\n", str))}
+function __print_set_stderr(f) {__gp_ferr__ = ((f) ? f : "/dev/stderr")}
+function __print_get_stderr() {return __gp_ferr__}
+function __print_stderr(str) {__print(str, __print_get_stderr())}
+function __print_puts_err(str) {__print_stderr(sprintf("%s\n", str))}
+function __print(str, file) {printf("%s", str) > file}
+# </gp_print>
+# <gp_exit>
+function __exit_skip_end_set() {__exit_skip_end__ = 1}
+function __exit_skip_end_clear() {__exit_skip_end__ = 0}
+function __exit_skip_end_get() {return __exit_skip_end__}
+function __exit_success() {__exit_skip_end_set(); exit(0)}
+function __exit_failure() {__exit_skip_end_set(); exit(1)}
+# </gp_exit>
+# <gp_error>
+function __error(msg) {
+	__print_puts_err(sprintf("%s: error: %s", SCRIPT_NAME(), msg))
+	__exit_failure()
+}
+function __error_input(msg) {
+	__error(sprintf("file '%s', line %d: %s", FILENAME, FNR, msg))
+}
+function GP_ERROR_EXPECT() {return "'%s' expected, but got '%s' instead"}
+function __error_parse(expect, got) {
+	__error_input(sprintf(GP_ERROR_EXPECT(), expect, got))
+}
+# </gp_error>
+# <gp_state_machine>
+function __state_set(state) {__state__ = state}
+function __state_get() {return __state__}
+function __state_match(state) {return (__state_get() == state)}
+function __state_transition(_next) {
+	if (__state_match("")) {
+		if (__R_CONTEXT_ARG_TYPE() == _next) __state_set(_next)
+		else __error_parse(__R_CONTEXT_ARG_TYPE(), _next)
+	}
+	else if (__state_match(__R_CONTEXT_ARG_TYPE())) {
+		if (__R_CONTEXT_VAR_NAME() == _next) __state_set(_next)
+		else __error_parse(__R_CONTEXT_VAR_NAME(), _next)
+	}
+	else if (__state_match(__R_CONTEXT_VAR_NAME())) {
+		if (__R_UNBOUND_ARG_CODE() == _next) __state_set(_next)
+		else __error_parse(__R_UNBOUND_ARG_CODE(), _next)
+	}
+	else if (__state_match(__R_UNBOUND_ARG_CODE())) {
+		if (__R_ON_ERROR_CODE() == _next) __state_set(_next)
+		else __error_parse(__R_ON_ERROR_CODE(), _next)
+	}
+	else if (__state_match(__R_ON_ERROR_CODE())) {
+		if (__R_LONG_NAME() == _next) __state_set(_next)
+		else __error_parse(__R_LONG_NAME(), _next)
+	}
+	else if (__state_match(__R_LONG_NAME())) {
+		if (__R_SHORT_NAME() == _next) __state_set(_next)
+		else __error_parse(__R_SHORT_NAME(), _next)
+	}
+	else if (__state_match(__R_SHORT_NAME())) {
+		if (__R_TAKES_ARGS() == _next) __state_set(_next)
+		else __error_parse(__R_TAKES_ARGS(), _next)
+	}
+	else if (__state_match(__R_TAKES_ARGS())) {
+		if (__R_HANDLER_CODE() == _next) __state_set(_next)
+		else __error_parse(__R_HANDLER_CODE(), _next)
+	}
+	else if (__state_match(__R_HANDLER_CODE())) {
+		if (__R_HELP_CODE() == _next) __state_set(_next)
+		else __error_parse(__R_HELP_CODE(), _next)
+	}
+	else if (__state_match(__R_HELP_CODE())) {
+		if (__R_END() == _next) __state_set(_next)
+		else __error_parse(__R_END(), _next)
+	}
+	else if (__state_match(__R_END())) {
+		if (__R_LONG_NAME() == _next) __state_set(_next)
+		else __error_parse(__R_LONG_NAME(), _next)
+	}
+}
+# </gp_state_machine>
+# <gp_awk_rules>
+function __R_CONTEXT_ARG_TYPE() {return "context_arg_type"}
+function __R_CONTEXT_VAR_NAME() {return "context_var_name"}
+function __R_UNBOUND_ARG_CODE() {return "unbound_arg_code"}
+function __R_ON_ERROR_CODE() {return "on_error_code"}
+function __R_LONG_NAME() {return "long_name"}
+function __R_SHORT_NAME() {return "short_name"}
+function __R_TAKES_ARGS() {return "takes_args"}
+function __R_HANDLER_CODE() {return "handler_code"}
+function __R_HELP_CODE() {return "help_code"}
+function __R_END() {return "end"}
 
-# <state_machine>
-function __error_raise(error_msg) {
-	printf("error: %s, line %d: %s\n", FILENAME, FNR, error_msg) > "/dev/stderr"
-	__error_happened = 1
-	exit(1)
-}
-function __parse_error(expct, got) {
-	__error_raise(sprintf("'%s' expected, but got '%s' instead", expct, got))
-}
-function __state_transition(__next) {
-	if (__state == "") {
-		if (__next == __R_CONTEXT_ARG_TYPE) __state = __next
-		else __parse_error(__R_CONTEXT_ARG_TYPE, __next)
-	}
-	else if (__state == __R_CONTEXT_ARG_TYPE) {
-		if (__next == __R_CONTEXT_VAR_NAME) __state = __next
-		else __parse_error(__R_CONTEXT_VAR_NAME, __next)
-	}
-	else if (__state == __R_CONTEXT_VAR_NAME) {
-		if (__next == __R_UNBOUND_ARG_CODE) __state = __next
-		else __parse_error(__R_UNBOUND_ARG_CODE, __next)
-	}
-	else if (__state == __R_UNBOUND_ARG_CODE) {
-		if (__next == __R_ON_ERROR_CODE) __state = __next
-		else __parse_error(__R_ON_ERROR_CODE, __next)
-	}
-	else if (__state == __R_ON_ERROR_CODE) {
-		if (__next == __R_LONG_NAME) __state = __next
-		else __parse_error(__R_LONG_NAME, __next)
-	}
-	else if (__state == __R_LONG_NAME) {
-		if (__next == __R_SHORT_NAME) __state = __next
-		else __parse_error(__R_SHORT_NAME, __next)
-	}
-	else if (__state == __R_SHORT_NAME) {
-		if (__next == __R_TAKES_ARGS) __state = __next
-		else __parse_error(__R_TAKES_ARGS, __next)
-	}
-	else if (__state == __R_TAKES_ARGS) {
-		if (__next == __R_HANDLER_CODE) __state = __next
-		else __parse_error(__R_HANDLER_CODE, __next)
-	}
-	else if (__state == __R_HANDLER_CODE) {
-		if (__next == __R_HELP_CODE) __state = __next
-		else __parse_error(__R_HELP_CODE, __next)
-	}
-	else if (__state == __R_HELP_CODE) {
-		if (__next == __R_END) __state = __next
-		else __parse_error(__R_END, __next)
-	}
-	else if (__state == __R_END) {
-		if (__next == __R_LONG_NAME) __state = __next
-		else __parse_error(__R_LONG_NAME, __next)
-	}
-}
-# </state_machine>
-
-# <input>
-$1 == __R_CONTEXT_ARG_TYPE {__state_transition($1); handle_context_arg_type(); next}
-$1 == __R_CONTEXT_VAR_NAME {__state_transition($1); handle_context_var_name(); next}
-$1 == __R_UNBOUND_ARG_CODE {__state_transition($1); handle_unbound_arg_code(); next}
-$1 == __R_ON_ERROR_CODE {__state_transition($1); handle_on_error_code(); next}
-$1 == __R_LONG_NAME {__state_transition($1); handle_long_name(); next}
-$1 == __R_SHORT_NAME {__state_transition($1); handle_short_name(); next}
-$1 == __R_TAKES_ARGS {__state_transition($1); handle_takes_args(); next}
-$1 == __R_HANDLER_CODE {__state_transition($1); handle_handler_code(); next}
-$1 == __R_HELP_CODE {__state_transition($1); handle_help_code(); next}
-$1 == __R_END {__state_transition($1); handle_end(); next}
+$1 == __R_CONTEXT_ARG_TYPE() {__state_transition($1); on_context_arg_type(); next}
+$1 == __R_CONTEXT_VAR_NAME() {__state_transition($1); on_context_var_name(); next}
+$1 == __R_UNBOUND_ARG_CODE() {__state_transition($1); on_unbound_arg_code(); next}
+$1 == __R_ON_ERROR_CODE() {__state_transition($1); on_on_error_code(); next}
+$1 == __R_LONG_NAME() {__state_transition($1); on_long_name(); next}
+$1 == __R_SHORT_NAME() {__state_transition($1); on_short_name(); next}
+$1 == __R_TAKES_ARGS() {__state_transition($1); on_takes_args(); next}
+$1 == __R_HANDLER_CODE() {__state_transition($1); on_handler_code(); next}
+$1 == __R_HELP_CODE() {__state_transition($1); on_help_code(); next}
+$1 == __R_END() {__state_transition($1); on_end(); next}
 $0 ~ /^[[:space:]]*$/ {next} # ignore empty lines
 $0 ~ /^[[:space:]]*#/ {next} # ignore comments
-{__error_raise("'" $1 "' unknown")} # all else is error
-# </input>
+{__error_input(sprintf("'%s' unknown", $1))} # all else is error
 
-# <start>
+function __init() {
+	__print_set_stdout()
+	__print_set_stderr()
+	__exit_skip_end_clear()
+}
 BEGIN {
-	__R_CONTEXT_ARG_TYPE = "context_arg_type"
-	__R_CONTEXT_VAR_NAME = "context_var_name"
-	__R_UNBOUND_ARG_CODE = "unbound_arg_code"
-	__R_ON_ERROR_CODE = "on_error_code"
-	__R_LONG_NAME = "long_name"
-	__R_SHORT_NAME = "short_name"
-	__R_TAKES_ARGS = "takes_args"
-	__R_HANDLER_CODE = "handler_code"
-	__R_HELP_CODE = "help_code"
-	__R_END = "end"
-	__error_happened = 0
-	awk_BEGIN()
+	__init()
+	on_BEGIN()
 }
-# </start>
 
-# <end>
 END {
-	if (!__error_happened)
-		awk_END()
+	if (!__exit_skip_end_get()) {
+		if (__state_get() != __R_END())
+			__error_parse(__R_END(), __state_get())
+		else
+			on_END()
+	}
 }
-# </end>
+# </gp_awk_rules>
+# </gen_parser>
 
-# <user_source>
+# <user_input>
+# Command line:
+# -vScriptName=parse-opts-gen.awk
+# -vScriptVersion=1.0
+# Rules:
 # context_arg_type -> context_var_name
 # context_var_name -> unbound_arg_code
 # unbound_arg_code -> on_error_code
@@ -280,6 +264,5 @@ END {
 # handler_code -> help_code
 # help_code -> end
 # end -> long_name
-# </user_source>
-
-# generated by scriptscript v2.11
+# </user_input>
+# generated by scriptscript.awk 2.21

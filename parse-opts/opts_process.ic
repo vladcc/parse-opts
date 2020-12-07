@@ -1,0 +1,94 @@
+// <opts_process>
+opts_table the_tbl;
+opts_entry all_entries[] = {
+	{
+		.names = {
+			.long_name = i_flag_opt_long,
+			.short_name = i_flag_opt_short
+		},
+		.handler = {
+			.handler = handle_i_flag,
+			.context = (void *)the_context,
+		},
+		.print_help = help_i_flag,
+		.takes_arg = false,
+	},
+	{
+		.names = {
+			.long_name = j_flag_opt_long,
+			.short_name = j_flag_opt_short
+		},
+		.handler = {
+			.handler = handle_j_flag,
+			.context = (void *)the_context,
+		},
+		.print_help = help_j_flag,
+		.takes_arg = false,
+	},
+	{
+		.names = {
+			.long_name = k_flag_opt_long,
+			.short_name = k_flag_opt_short
+		},
+		.handler = {
+			.handler = handle_k_flag,
+			.context = (void *)the_context,
+		},
+		.print_help = help_k_flag,
+		.takes_arg = false,
+	},
+	{
+		.names = {
+			.long_name = a_option_opt_long,
+			.short_name = a_option_opt_short
+		},
+		.handler = {
+			.handler = handle_a_option,
+			.context = (void *)the_context,
+		},
+		.print_help = help_a_option,
+		.takes_arg = true,
+	},
+	{
+		.names = {
+			.long_name = help_opt_long,
+			.short_name = help_opt_short
+		},
+		.handler = {
+			.handler = handle_help,
+			.context = (void *)(&the_tbl),
+		},
+		.print_help = help_help,
+		.takes_arg = false,
+	},
+	{
+		.names = {
+			.long_name = sub_args_opt_long,
+			.short_name = sub_args_opt_short
+		},
+		.handler = {
+			.handler = handle_sub_args,
+			.context = (void *)the_context,
+		},
+		.print_help = help_sub_args,
+		.takes_arg = true,
+	},
+};
+
+the_tbl.tbl = all_entries;
+the_tbl.length = sizeof(all_entries)/sizeof(*all_entries);
+
+opts_parse_data parse_data = {
+	.the_tbl = &the_tbl,
+	.on_unbound = {
+		.handler = on_unbound_arg,
+		.context = (void *)the_context,
+	},
+	.on_error = {
+		.handler = on_error,
+		.context = (void *)the_context,
+	}
+};
+
+opts_parse(argc-1, argv+1, &parse_data);
+// </opts_process>
