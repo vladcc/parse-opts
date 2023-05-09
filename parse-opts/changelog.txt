@@ -1,3 +1,7 @@
+2023-05-09
+	* parse-opts-gen.awk 1.2
+	-vOutDir=<dir> feature added
+
 2023-02-27
 	* Directory tree restructured.
 	* parse-opts-gen.awk 1.1

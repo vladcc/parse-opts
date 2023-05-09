@@ -1,7 +1,7 @@
 #!/usr/bin/awk -f
 
 function SCRIPT_NAME() {return "parse-opts-gen.awk"}
-function SCRIPT_VERSION() {return "1.1"}
+function SCRIPT_VERSION() {return "1.2"}
 
 # <user_api>
 # <user_print>
@@ -341,6 +341,9 @@ function on_end() {
 }
 
 function init() {
+
+	out_dir_set(OutDir)
+
 	if (Help)
 		print_help()
 	if (Version)
@@ -379,8 +382,9 @@ print use_str()
 print "A line oriented state machine parser."
 print ""
 print "Options:"
-print "-vVersion=1 - print version"
-print "-vHelp=1    - print this screen"
+print "-vOutDir=<dir> - set an output directory for the generated *.ic files"
+print "-vVersion=1    - print version"
+print "-vHelp=1       - print this screen"
 print ""
 print "Rules:"
 print "'->' means 'must be followed by'"
@@ -563,10 +567,18 @@ function opts_parse_data() {
 	print_ind_line("};")
 }
 
+function out_dir_set(out_dir) {_B_out_dir_ = out_dir}
+function out_dir_get() {return _B_out_dir_}
+
+function out_file_get(fname,   _out_dir) {
+	_out_dir = out_dir_get()
+	return _out_dir ? (_out_dir "/" fname) : fname
+}
+
 function main(    i, end, opt) {
 	end = get_long_name_count()
 	
-	print_set_stdout("opts_definitions.ic")
+	print_set_stdout(out_file_get("opts_definitions.ic"))
 	print_puts("// <opts_definitions>")
 	print_ind_line()
 	for (i = 1; i <= end; ++i) {
@@ -576,7 +588,7 @@ function main(    i, end, opt) {
 	gen_default_handlers()
 	print_puts("// </opts_definitions>")
 	
-	print_set_stdout("opts_process.ic")
+	print_set_stdout(out_file_get("opts_process.ic"))
 	print_puts("// <opts_process>")
 	open_tbl()
 	for (i = 1; i <= end; ++i)
