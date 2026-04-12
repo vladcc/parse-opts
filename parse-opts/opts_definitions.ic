@@ -108,7 +108,7 @@ static void on_error(opts_err_code err_code, const char * err_opt, void * ctx)
 		default:
 		break;
 	}
-	
+
 	exit(EXIT_FAILURE);
 }
 

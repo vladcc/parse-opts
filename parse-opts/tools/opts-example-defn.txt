@@ -1,3 +1,5 @@
+defn_start
+
 context_arg_type program_opts
 context_var_name the_context
 
@@ -23,7 +25,7 @@ on_error_code
 		default:
 		break;
 	}
-	
+
 	exit(EXIT_FAILURE);
 end_code
 
@@ -96,3 +98,5 @@ help_code
     printf("help for option %s, %s\n", short_name, long_name);
 end_code
 end
+
+defn_end
