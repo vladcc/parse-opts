@@ -1,4 +1,8 @@
 2026-04-13
+	parse-opts-gen.awk 2.2
+	skip_end() added
+	bugfix: error messages on version/help info does not print anymore
+
 	parse-opts-gen.awk 2.1
 	defn_start can be encountered exactly once
 	check for defn_end at the end of processing

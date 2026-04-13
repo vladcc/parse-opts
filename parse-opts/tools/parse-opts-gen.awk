@@ -43,6 +43,7 @@ function did_err_happen() {
 }
 function err_print(msg) {
 	_B_err_happened = 1
+	set_should_skip_end()
 	print_puts_err(sprintf("%s: error: %s", SCRIPT_NAME(), msg))
 }
 function err_quit(msg) {
@@ -115,27 +116,32 @@ function enter() {
 
 	out_dir_set(OutDir)
 
-	if (Help)
+	if (Help) {
+		set_should_skip_end()
 		print_help()
-	if (Version)
+	}
+	if (Version) {
+		set_should_skip_end()
 		print_version()
-	if (ARGC != 2)
+	}
+	if (ARGC != 2) {
+		set_should_skip_end()
 		print_use_try()
+	}
 }
 
+function set_should_skip_end() {_B_should_skip_end = 1}
+function get_should_skip_end() {return _B_should_skip_end}
 function set_can_end() {_B_can_end = 1}
 function get_can_end() {return _B_can_end}
 
 function leave(    _st) {
 
-
-	if (!did_err_happen()) {
+	if (!did_err_happen() && !get_should_skip_end()) {
 		if (!get_can_end())
 			err_input_quit(sprintf("%s was not encountered", STM_DEFN_END()))
 		else
 			main()
-	} else {
-		exit_failure()
 	}
 }
 
@@ -194,7 +200,7 @@ print DESCRIPT_FSM()
 # <user_code>
 
 function SCRIPT_NAME() {return "parse-opts-gen.awk"}
-function SCRIPT_VERSION() {return "2.1"}
+function SCRIPT_VERSION() {return "2.2"}
 
 function get_cname(name) {
 	gsub("-", "_", name)
