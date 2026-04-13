@@ -1,3 +1,8 @@
+2026-04-13
+	parse-opts-gen.awk 2.1
+	defn_start can be encountered exactly once
+	check for defn_end at the end of processing
+
 2026-04-12
 	parse_opts 2.1
 	opts_is_everything_an_arg() added
